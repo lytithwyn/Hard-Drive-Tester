@@ -87,7 +87,7 @@ class Tester
 
         Thread.new do
             # for now we are sleeping for a hard-coded 2 minutes
-            # in the future we should read the sleep time from smartcl
+            # in the future we should read the sleep time from smartctl
             sleep(2 * 60)
 
             while 1
