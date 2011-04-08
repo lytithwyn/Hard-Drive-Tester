@@ -10,9 +10,15 @@ class Tester
         winMain.set_title("Hard Drive Tester")
         winMain.border_width = 10
 
-        driveTable = Gtk::Table.new(@hardDrives.length, 3)
+        driveTable = Gtk::Table.new(@hardDrives.length + 1, 3) # the +1 row is for the status bar
         driveTable.column_spacings = 5
         driveTable.row_spacings = 5
+
+        @statusBar = Gtk::Statusbar.new
+        @statusBarContext =@statusBar.get_context_id("Hard Drive Tester")
+        @statusBar.push(@statusBarContext, "Ready")
+        driveTable.attach_defaults(@statusBar, 0, 3, @hardDrives.length + 1, @hardDrives.length + 2)
+
 
         row = 0;
         @hardDrives.each do |hardDrive|
@@ -69,10 +75,14 @@ class Tester
     end
 
     def fullHardDriveTest(hardDrive)
+        @statusBar.pop(@statusBarContext)
+        @statusBar.push(@statusBarContext, "Starting full scan on #{hardDrive}")
         system "xterm -fg white -bg black -e vdt --read --wait -r " + hardDrive + "  &"
     end
 
     def quickHardDriveTest(hardDrive)
+        @statusBar.pop(@statusBarContext)
+        @statusBar.push(@statusBarContext, "Starting quick scan on #{hardDrive}")
         puts "Just pretending to run a quick test on " + hardDrive
     end
 end
