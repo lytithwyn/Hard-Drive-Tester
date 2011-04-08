@@ -83,7 +83,37 @@ class Tester
     def quickHardDriveTest(hardDrive)
         @statusBar.pop(@statusBarContext)
         @statusBar.push(@statusBarContext, "Starting quick scan on #{hardDrive}")
-        puts "Just pretending to run a quick test on " + hardDrive
+        system "smartctl -t short #{hardDrive}"
+
+        Thread.new do
+            # for now we are sleeping for a hard-coded 2 minutes
+            # in the future we should read the sleep time from smartcl
+            sleep(2 * 60)
+
+            while 1
+                # now check to see if it's done
+                smartStatus = `smartctl -c #{hardDrive}`
+                testStatusRegex = Regexp.new(/Self-test execution status:\s+\(\s*(\d+)\)/)
+                testStatusMatch = testStatusRegex.match(smartStatus)
+
+                if testStatusMatch
+                    if testStatusMatch[1] == "0"
+                        @statusBar.pop(@statusBarContext)
+                        @statusBar.push(@statusBarContext, "Quick test of #{hardDrive} complete")
+                        break
+                    else
+                        @statusBar.pop(@statusBarContext)
+                        @statusBar.push(@statusBarContext, "Quick test of #{hardDrive} still running")
+                    end
+                else
+                    @statusBar.pop(@statusBarContext)
+                    @statusBar.push(@statusBarContext, "** Quick test of #{hardDrive} - unknown status!")
+                    break
+                end
+
+                sleep(10)
+            end
+        end
     end
 end
 
