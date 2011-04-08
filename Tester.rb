@@ -65,7 +65,7 @@ class Tester
             File.open("/proc/partitions", "r") do |partitions|
                 while(line = partitions.gets)
                     hdRegex.match(line) do |hdMatch|
-                        @hardDrives << "/dev/" + hdMatch[1]
+                        @hardDrives << "/dev/#{hdMatch[1]}"
                     end
                 end
             end
@@ -77,7 +77,7 @@ class Tester
     def fullHardDriveTest(hardDrive)
         @statusBar.pop(@statusBarContext)
         @statusBar.push(@statusBarContext, "Starting full scan on #{hardDrive}")
-        system "xterm -fg white -bg black -e vdt --read --wait -r " + hardDrive + "  &"
+        system "xterm -fg white -bg black -e vdt --read --wait -r #{hardDrive}  &"
     end
 
     def quickHardDriveTest(hardDrive)
