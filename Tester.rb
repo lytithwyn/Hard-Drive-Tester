@@ -8,7 +8,7 @@ class Tester
         # now lets build our GUI
         winMain = Gtk::Window.new
         winMain.set_title("Hard Drive Tester")
-        winMain.border_width = 10
+        winMain.border_width = 5 
 
         driveTable = Gtk::Table.new(@hardDrives.length + 1, 3) # the +1 row is for the status bar
         driveTable.column_spacings = 5
