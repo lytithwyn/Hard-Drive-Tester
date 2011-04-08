@@ -1,0 +1,37 @@
+class Tester {
+    Tester() {
+        hardDrives = getHardDrives();
+
+        guiCreateTable(rows = hardDrives.count(), cols = whatever, homogeneous = false);
+
+        foreach(int i = 0; i++; i < hardDrives.count) {
+            table[i][0] = new label(hardDrives[i]);
+            table[i][1] = new button("Short Test", { shortSmartTest(nodeName) });
+            table[i][2] = new button("Full Test", { fullTest(nodeName) });
+        }
+    }
+
+    shortSmartTest(nodeName) {
+        clearTimer(); //just in case
+        setTimer(shortTestPoll(nodeName), interval);
+    }
+
+    shortTestPoll(nodeName) {
+        if(isShortTestDone?(nodeName)) {
+            clearTimer(nodeName);
+            shortTestDone(nodeName);
+        }
+
+        changeTimerInterval(30 seconds);
+    }
+
+    shortTestDone(nodeName) {
+        popDialogResults();
+    }
+
+    fullTest(nodeName) {
+        system("xterm -e [vdt command]);
+    }
+}
+
+
