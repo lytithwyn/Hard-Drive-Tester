@@ -83,12 +83,12 @@ class Tester
     def quickHardDriveTest(hardDrive)
         @statusBar.pop(@statusBarContext)
         @statusBar.push(@statusBarContext, "Starting quick scan on #{hardDrive}")
-        system "smartctl -t short #{hardDrive}"
+        #system "smartctl -t short #{hardDrive}"
 
         Thread.new do
             # for now we are sleeping for a hard-coded 2 minutes
             # in the future we should read the sleep time from smartctl
-            sleep(2 * 60)
+            #sleep(2 * 60)
 
             while 1
                 # now check to see if it's done
@@ -100,6 +100,7 @@ class Tester
                     if testStatusMatch[1] == "0"
                         @statusBar.pop(@statusBarContext)
                         @statusBar.push(@statusBarContext, "Quick test of #{hardDrive} complete")
+                        showQuickTestResults(hardDrive)
                         break
                     else
                         @statusBar.pop(@statusBarContext)
@@ -114,6 +115,22 @@ class Tester
                 sleep(10)
             end
         end
+    end
+
+    def showQuickTestResults(hardDrive)
+        quickTestResults = `smartctl -l selftest #{hardDrive}`
+
+        winResults = Gtk::Window.new
+        winResults.set_title("Quick Hard Drive Self Test Results")
+        winResults.border_width = 5
+
+        resultsTextBuffer = Gtk::TextBuffer.new
+        #resultsTextView = Gtk::TextView.new(resultsTextBuffer)
+        #resultsFont = Pango::FontDescription.new("Courier 12")
+        resultsTextView.modify_font(font)
+        resultsTextBuffer.text = quickTestResults
+        winResults.add(resultsTextView)
+        winResults.show_all
     end
 end
 
