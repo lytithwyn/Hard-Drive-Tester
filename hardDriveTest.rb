@@ -1,3 +1,3 @@
-require "Tester.rb"
+require "./Tester.rb"
 
 myTester = Tester.new
