@@ -62,7 +62,7 @@ class Tester
             #   8        0 156290904 sda
             #   8        1  81923436 sda1
             #   8        2    104422 sda2
-            hdRegex = Regexp.new(/\s+\d\s+\d\s+\d+\s+([a-zA-Z]+)(?!\d)$/);
+            hdRegex = Regexp.new(/\s+\d+\s+\d+\s+\d+\s+([a-zA-Z]+)(?!\d)$/);
             File.open("/proc/partitions", "r") do |partitions|
                 while(line = partitions.gets)
                     hdRegex.match(line) do |hdMatch|
